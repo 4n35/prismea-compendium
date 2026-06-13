@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compendium de Prisméa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold:    #d4a843;
+  --gold-dim:#a07830;
+  --purple:  #7c5cbf;
+  --teal:    #1a9e75;
+  --red:     #c0392b;
+  --bg:      #0e0d0b;
+  --bg2:     #161410;
+  --bg3:     #1e1b16;
+  --bg4:     #26221a;
+  --border:  #2e2820;
+  --border2: #3e3428;
+  --text:    #e8dfc8;
+  --text2:   #a09070;
+  --text3:   #6a5840;
+  --ordre:   #3a6ea8;
+  --chaos:   #8b2020;
+  --neutre:  #4a5040;
+  --secret:  #5a3880;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Crimson Pro', Georgia, serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── HEADER ── */
+.site-header {
+  background: linear-gradient(180deg, #0a0906 0%, var(--bg) 100%);
+  border-bottom: 1px solid var(--border2);
+  padding: 32px 24px 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.site-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(212,168,67,.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.site-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(28px, 5vw, 52px);
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: .12em;
+  text-shadow: 0 0 40px rgba(212,168,67,.3);
+  position: relative;
+}
+.site-subtitle {
+  font-size: 15px;
+  color: var(--text2);
+  font-style: italic;
+  margin-top: 6px;
+  letter-spacing: .06em;
+}
+.ornament { color: var(--gold-dim); font-size: 20px; margin: 0 12px; }
+
+/* ── NAV ── */
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  margin-top: 28px;
+  border-top: 1px solid var(--border2);
+  position: relative;
+  z-index: 1;
+}
+.nav-btn {
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  padding: 14px 22px;
+  background: transparent;
+  border: none;
+  color: var(--text3);
+  cursor: pointer;
+  border-top: 2px solid transparent;
+  transition: color .2s, border-color .2s;
+  text-transform: uppercase;
+}
+.nav-btn:hover { color: var(--text2); }
+.nav-btn.active { color: var(--gold); border-top-color: var(--gold); }
+
+/* ── LAYOUT ── */
+.container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
+
+.section { display: none; }
+.section.active { display: block; }
+
+/* ── WORLD ── */
+.world-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 28px; }
+@media(max-width:700px){ .world-grid { grid-template-columns: 1fr; } }
+
+.lore-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.lore-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+}
+.lore-card-title {
+  font-family: 'Cinzel', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 10px;
+  letter-spacing: .06em;
+}
+.lore-card-desc {
+  font-size: 15px;
+  color: var(--text2);
+  line-height: 1.7;
+}
+
+.tension-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+.tension-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 18px;
+}
+.tension-title {
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: 8px;
+}
+.tension-desc { font-size: 14px; color: var(--text2); line-height: 1.6; }
+
+.section-heading {
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── FILTERS ── */
+.filter-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.filter-btn {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border: 1px solid var(--border2);
+  background: transparent;
+  color: var(--text3);
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all .15s;
+}
+.filter-btn:hover { color: var(--text2); border-color: var(--text3); }
+.filter-btn.on { color: var(--gold); border-color: var(--gold-dim); background: rgba(212,168,67,.06); }
+
+/* ── GRID + CARDS ── */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; margin-bottom: 24px; }
+
+.card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 16px;
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+  position: relative;
+}
+.card:hover { border-color: var(--border2); background: var(--bg3); }
+.card.sel { border-color: var(--gold-dim); background: var(--bg3); }
+.card.sel::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: var(--gold-dim);
+}
+.card-icon { font-size: 22px; margin-bottom: 8px; }
+.card-name {
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 3px;
+}
+.card-sub { font-size: 13px; color: var(--text3); font-style: italic; }
+
+/* ── BADGES ── */
+.badge {
+  display: inline-block;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 2px;
+  margin-top: 7px;
+}
+.b-ordre  { background: rgba(58,110,168,.2);  color: #6ea8e0; border: 1px solid rgba(58,110,168,.4); }
+.b-chaos  { background: rgba(139,32,32,.2);   color: #e06060; border: 1px solid rgba(139,32,32,.4); }
+.b-neutre { background: rgba(74,80,64,.2);    color: #90a080; border: 1px solid rgba(74,80,64,.4); }
+.b-secret { background: rgba(90,56,128,.2);   color: #b090e0; border: 1px solid rgba(90,56,128,.4); }
+.b-base   { background: rgba(26,158,117,.15); color: #60c8a0; border: 1px solid rgba(26,158,117,.3); }
+.b-spe    { background: rgba(180,120,20,.15); color: #d4a843; border: 1px solid rgba(180,120,20,.3); }
+.b-prestige{ background: rgba(192,57,43,.15); color: #e08070; border: 1px solid rgba(192,57,43,.3); }
+.b-classique{ background: rgba(56,100,160,.15);color: #80aad0; border: 1px solid rgba(56,100,160,.3);}
+.b-rare   { background: rgba(160,100,20,.2);  color: #e0b060; border: 1px solid rgba(160,100,20,.4); }
+
+/* ── DETAIL PANEL ── */
+.detail-panel {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 4px;
+  padding: 28px;
+  min-height: 160px;
+  position: relative;
+}
+.detail-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 4px;
+  background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(212,168,67,.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+.det-placeholder { color: var(--text3); font-style: italic; font-size: 15px; }
+.det-title {
+  font-family: 'Cinzel', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.det-meta { font-size: 14px; color: var(--text3); margin-bottom: 14px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.det-desc { font-size: 15px; color: var(--text2); line-height: 1.75; margin-bottom: 18px; }
+.det-section { margin-top: 16px; }
+.det-section-title {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 8px;
+}
+.chip-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  font-size: 13px;
+  padding: 4px 12px;
+  border-radius: 2px;
+  border: 1px solid var(--border2);
+  color: var(--text2);
+  background: var(--bg3);
+}
+.chip.ally   { border-color: rgba(26,158,117,.4); color: #60c8a0; background: rgba(26,158,117,.08); }
+.chip.enemy  { border-color: rgba(192,57,43,.4);  color: #e08070; background: rgba(192,57,43,.08); }
+.chip.tension{ border-color: rgba(180,120,20,.4); color: #d4a843; background: rgba(180,120,20,.08); }
+
+.stat-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.stat-pill {
+  font-size: 13px;
+  padding: 4px 12px;
+  border-radius: 2px;
+  border: 1px solid var(--border2);
+  background: var(--bg3);
+  color: var(--text);
+}
+.plus { color: #60c8a0; }
+.minus { color: #e08070; }
+
+.skill-item {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 10px 14px;
+  margin-bottom: 6px;
+}
+.skill-name { font-size: 14px; font-weight: 600; color: var(--text); }
+.skill-desc { font-size: 13px; color: var(--text2); margin-top: 3px; line-height: 1.5; }
+.skill-badge { font-size: 11px; color: var(--text3); margin-left: 8px; }
+
+/* ── SEARCH ── */
+.search-wrap { margin-bottom: 20px; position: relative; }
+.search-wrap input {
+  width: 100%;
+  max-width: 360px;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: 3px;
+  padding: 10px 16px;
+  font-family: 'Crimson Pro', serif;
+  font-size: 15px;
+  color: var(--text);
+  outline: none;
+  transition: border-color .15s;
+}
+.search-wrap input:focus { border-color: var(--gold-dim); }
+.search-wrap input::placeholder { color: var(--text3); }
+
+/* ── DIVIDER ── */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border2), transparent);
+  margin: 32px 0;
+}
+
+/* ── FOOTER ── */
+footer {
+  text-align: center;
+  padding: 32px 20px;
+  border-top: 1px solid var(--border);
+  color: var(--text3);
+  font-size: 13px;
+  font-style: italic;
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-title">
+    <span class="ornament">✦</span>
+    Compendium de Prisméa
+    <span class="ornament">✦</span>
+  </div>
+  <div class="site-subtitle">Archives du monde — Troubadour RP</div>
+  <nav>
+    <button class="nav-btn active" onclick="tab('monde',this)">Le Monde</button>
+    <button class="nav-btn" onclick="tab('factions',this)">Factions</button>
+    <button class="nav-btn" onclick="tab('races',this)">Races</button>
+    <button class="nav-btn" onclick="tab('classes',this)">Classes</button>
+    <button class="nav-btn" onclick="tab('roles',this)">Rôles</button>
+  </nav>
+</header>
+
+<main class="container">
+
+  <!-- ══ MONDE ══ -->
+  <section id="s-monde" class="section active">
+    <div class="world-grid">
+      <div class="lore-card">
+        <div class="lore-card-title">⚔ Orior — Le Continent Ancien</div>
+        <div class="lore-card-desc">Continent prospère et civilisé. Dominé à 85% par le Royaume de Castelia, avec des institutions stables, une religion officielle et une armée disciplinée. La référence de ce que la civilisation peut bâtir — et de ce qu'elle peut contrôler.</div>
+        <div class="chip-row" style="margin-top:14px">
+          <span class="chip">Monarchie impériale</span>
+          <span class="chip">Foi du Prisme Éternel</span>
+          <span class="chip">Science naissante</span>
+        </div>
+      </div>
+      <div class="lore-card">
+        <div class="lore-card-title">🔥 Vilthar — Le Continent Jeune</div>
+        <div class="lore-card-desc">Continent où la vie a émergé bien plus récemment. Multitude de petits royaumes concurrents, factions sombres en expansion, clans guerriers. Moins stable, moins contrôlé — mais fertile en ambitions et en secrets.</div>
+        <div class="chip-row" style="margin-top:14px">
+          <span class="chip">Confédération d'Anagle</span>
+          <span class="chip">Clans de Kylren</span>
+          <span class="chip">Cultes souterrains</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="lore-card" style="margin-bottom:28px">
+      <div class="lore-card-title">🌊 L'Océan du Néant</div>
+      <div class="lore-card-desc">L'étendue d'eau entre les deux continents est quasi impraticable. Les tempêtes y sont permanentes, les créatures y sont hostiles, et aucun bateau n'en est revenu intact. Les deux civilisations s'ignorent presque totalement — ce qui n'empêche pas certaines factions d'y avoir leurs propres théories.</div>
+    </div>
+
+    <div class="section-heading">Axes de tension du monde</div>
+    <div class="tension-grid">
+      <div class="tension-card">
+        <div class="tension-title">✦ Le Dieu imparfait</div>
+        <div class="tension-desc">Le monde a été créé par un dieu amateur. Les anomalies qui en résultent définissent la politique, la foi et les conflits de toute civilisation.</div>
+      </div>
+      <div class="tension-card">
+        <div class="tension-title">✦ Foi vs Science</div>
+        <div class="tension-desc">Le Prisme Éternel voit les anomalies comme des épreuves divines. L'Académie des Souffles les étudie comme des phénomènes. Les deux s'affrontent en silence depuis des décennies.</div>
+      </div>
+      <div class="tension-card">
+        <div class="tension-title">✦ Le Voile et les démons</div>
+        <div class="tension-desc">Une faction croit que le dieu est un imposteur. Son but : agrandir les failles pour libérer quelque chose de plus grand. Le plus grand danger latent du monde connu.</div>
+      </div>
+      <div class="tension-card">
+        <div class="tension-title">✦ La Vérité cachée</div>
+        <div class="tension-desc">Plusieurs factions cherchent ce que le dieu aurait délibérément dissimulé dans la structure même de la création. Personne n'a encore trouvé. Personne n'est revenu pour en parler.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FACTIONS ══ -->
+  <section id="s-factions" class="section">
+    <div class="search-wrap">
+      <input type="text" id="faction-search" placeholder="Rechercher une faction…" oninput="buildFactions()">
+    </div>
+    <div class="filter-row" id="faction-filters">
+      <button class="filter-btn on" onclick="setFilter('f','all',this)">Tout</button>
+      <button class="filter-btn" onclick="setFilter('f','Orior',this)">Orior</button>
+      <button class="filter-btn" onclick="setFilter('f','Vilthar',this)">Vilthar</button>
+      <button class="filter-btn" onclick="setFilter('f','Partout',this)">Partout</button>
+    </div>
+    <div class="card-grid" id="faction-grid"></div>
+    <div class="detail-panel" id="faction-detail">
+      <div class="det-placeholder">Sélectionne une faction pour consulter ses archives.</div>
+    </div>
+  </section>
+
+  <!-- ══ RACES ══ -->
+  <section id="s-races" class="section">
+    <div class="filter-row" id="race-filters">
+      <button class="filter-btn on" onclick="setFilter('r','all',this)">Toutes</button>
+      <button class="filter-btn" onclick="setFilter('r','classique',this)">Classiques</button>
+      <button class="filter-btn" onclick="setFilter('r','rare',this)">Rares</button>
+    </div>
+    <div class="card-grid" id="race-grid"></div>
+    <div class="detail-panel" id="race-detail">
+      <div class="det-placeholder">Sélectionne une race pour consulter ses archives.</div>
+    </div>
+  </section>
+
+  <!-- ══ CLASSES ══ -->
+  <section id="s-classes" class="section">
+    <div class="filter-row" id="class-filters">
+      <button class="filter-btn on" onclick="setFilter('c','all',this)">Toutes</button>
+      <button class="filter-btn" onclick="setFilter('c','base',this)">Base</button>
+      <button class="filter-btn" onclick="setFilter('c','specialisation',this)">Spécialisation</button>
+      <button class="filter-btn" onclick="setFilter('c','prestige',this)">Prestige</button>
+    </div>
+    <div class="card-grid" id="class-grid"></div>
+    <div class="detail-panel" id="class-detail">
+      <div class="det-placeholder">Sélectionne une classe pour consulter ses archives.</div>
+    </div>
+  </section>
+
+  <!-- ══ RÔLES ══ -->
+  <section id="s-roles" class="section">
+    <div class="card-grid" id="role-grid"></div>
+    <div class="detail-panel" id="role-detail">
+      <div class="det-placeholder">Sélectionne un rôle d'origine pour consulter ses archives.</div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Prisméa — univers RP · Toute reproduction en dehors du serveur est interdite.
+</footer>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────────
+
+const FACTIONS = [
+  { id:'castelia', icon:'⚜️', name:'Royaume de Castelia', type:'Royaume impérial', continent:'Orior', align:'ordre',
+    desc:'Le pilier d\'Orior. Castelia gouverne depuis des siècles avec une monarchie stable, une justice codifiée et une armée disciplinée. La prospérité du continent tient en grande partie à ses institutions. Officiellement neutre sur la question divine — mais finance le Prisme Éternel en sous-main. Castelia ne tolère pas le désordre.',
+    allies:['Prisme Éternel','Sentinelles d\'Orior','Marchands Libres'], tensions:['Académie des Souffles','Confédération d\'Anagle'], enemies:['Lignée du Voile','La Braise'] },
+  { id:'prisme', icon:'✨', name:'Prisme Éternel', type:'Culte officiel', continent:'Orior', align:'ordre',
+    desc:'La religion dominante du monde connu. Vénère le dieu créateur malgré ses imperfections. Les anomalies sont des blessures de création à purifier par la foi et le rituel. Inquisiteurs actifs contre la Lignée du Voile. Cherchent à s\'étendre sur Vilthar — par la diplomatie si possible, par l\'épée si nécessaire.',
+    allies:['Royaume de Castelia','Sentinelles d\'Orior'], tensions:['Académie des Souffles'], enemies:['Lignée du Voile','Enfants du Chaos'] },
+  { id:'academie', icon:'📚', name:'Académie des Souffles', type:'Institution savante', continent:'Orior', align:'neutre',
+    desc:'Les rationalistes de Prisméa. Ils étudient les anomalies comme des phénomènes naturels issus des instabilités de création. Ne nient pas l\'existence du dieu mais refusent le dogme. Financés par Castelia — mais leur indépendance croissante crée des frictions. Certains membres ont des contacts avec l\'Ordre du Sang Ancien.',
+    allies:['Marchands Libres','Ordre du Sang Ancien'], tensions:['Royaume de Castelia','Prisme Éternel'], enemies:['Lignée du Voile'] },
+  { id:'sentinelles', icon:'🛡️', name:'Sentinelles d\'Orior', type:'Armée impériale d\'élite', continent:'Orior', align:'ordre',
+    desc:'L\'élite militaire de Castelia. Formés dès l\'enfance dans des bastions hermétiques. Gèrent les anomalies par la force, défendent les frontières, traquent les agents de la Lignée du Voile. Ne posent pas de questions politiques. Obéissent. Punissent. Recommencent.',
+    allies:['Royaume de Castelia','Prisme Éternel'], tensions:['Confédération d\'Anagle'], enemies:['Lignée du Voile','La Braise','Enfants du Chaos'] },
+  { id:'anagle', icon:'⚖️', name:'Confédération d\'Anagle', type:'Alliance de royaumes', continent:'Vilthar', align:'neutre',
+    desc:'Une alliance lâche de plusieurs royaumes de Vilthar autour d\'un pacte commercial. Pragmatiques : ils font affaire avec tout le monde. La stabilité d\'Anagle attire autant les marchands honnêtes que les agents de la Lignée du Voile. L\'infiltration est en cours — les dirigeants ne le savent pas encore.',
+    allies:['Marchands Libres'], tensions:['Royaume de Castelia','Clans de Kylren'], enemies:['Lignée du Voile (officiellement)'] },
+  { id:'voile', icon:'👁️', name:'Lignée du Voile', type:'Culte démoniaque', continent:'Vilthar', align:'chaos',
+    desc:'Ils croient que le dieu créateur est un imposteur qui a volé la création. Les anomalies sont pour eux des preuves de son incompétence — et des portes vers autre chose. Leur but : agrandir ces failles pour en libérer des entités plus puissantes. Secrets, infiltrés partout. Le plus grand danger du monde.',
+    allies:['La Braise (financée)'], tensions:['Enfants du Chaos (idéologiquement proches mais rivaux)'], enemies:['Prisme Éternel','Sentinelles d\'Orior','Ordre du Sang Ancien'] },
+  { id:'kylren', icon:'🐺', name:'Clans de Kylren', type:'Peuple guerrier nomade', continent:'Vilthar', align:'chaos',
+    desc:'Des clans nomades vivant dans les zones les plus hostiles de Vilthar. Aucune structure politique formelle — chaque clan obéit à son champion. Certains vénèrent les anomalies comme des signes divins. D\'autres les combattent pour prouver leur valeur. Pas d\'idéologie : juste la force, le clan, la survie.',
+    allies:['La Braise (par opportunisme)'], tensions:['Confédération d\'Anagle'], enemies:['Sentinelles d\'Orior','Prisme Éternel'] },
+  { id:'braise', icon:'🔥', name:'La Braise', type:'Réseau criminel', continent:'Vilthar', align:'chaos',
+    desc:'Pas une faction idéologique — une économie parallèle. Trafic, mercenariat, information, protection. La Braise ne prend pas parti mais peut être louée. Certains membres sont des agents de la Lignée du Voile sans le savoir. Ce qu\'on ne peut pas acheter légalement, La Braise peut l\'obtenir.',
+    allies:['Quiconque paie'], tensions:['Marchands Libres (concurrence)'], enemies:['Sentinelles d\'Orior (officiellement)'] },
+  { id:'marchands', icon:'🏪', name:'Marchands Libres', type:'Guilde commerciale', continent:'Partout', align:'neutre',
+    desc:'Sans eux, la moitié des petits royaumes mourrait d\'isolement. Neutres par nécessité économique — ils font affaire des deux côtés de l\'Océan du Néant, à petite échelle. Leur réseau d\'informateurs dense est exploité discrètement par d\'autres factions. L\'information est leur vrai commerce.',
+    allies:['Confédération d\'Anagle','Royaume de Castelia'], tensions:['La Braise'], enemies:[] },
+  { id:'sang', icon:'🩸', name:'Ordre du Sang Ancien', type:'Organisation secrète', continent:'Partout', align:'secret',
+    desc:'Ni pro-dieu ni pro-démon. L\'Ordre croit que les anomalies révèlent quelque chose que le dieu a délibérément caché dans la structure de la création. Très petits, très discrets, infiltrés partout. Recrutent des individus capables de voir ce que les autres ignorent ou refusent de regarder.',
+    allies:['Académie des Souffles (partage d\'information prudent)'], tensions:['Prisme Éternel','Lignée du Voile'], enemies:['Guetteurs du Vide'] },
+  { id:'enfants', icon:'♾️', name:'Enfants du Chaos', type:'Mouvement philosophique armé', continent:'Partout', align:'chaos',
+    desc:'Moins une faction qu\'une philosophie. Ils refusent les lois du dieu, les dogmes du Prisme et les ordres des royaumes. Un noyau dur croit vraiment que la liberté absolue est la seule réponse aux défaillances de la création. Certains membres ne savent pas qu\'ils sont manipulés par la Lignée du Voile.',
+    allies:['La Braise (parfois)'], tensions:['Lignée du Voile (idéologiquement proches mais rivaux)'], enemies:['Prisme Éternel','Sentinelles d\'Orior'] },
+  { id:'guetteurs', icon:'🌑', name:'Guetteurs du Vide', type:'Faction inconnue', continent:'Partout', align:'secret',
+    desc:'Personne ne sait qui sont les Guetteurs ni pour quoi ils travaillent. Ils observent les anomalies sans jamais intervenir directement. Certains pensent qu\'ils sont les agents d\'une entité extérieure au monde. D\'autres pensent qu\'ils sont les derniers à savoir ce que le monde était censé être.',
+    allies:['Inconnu'], tensions:['Toutes les factions connues'], enemies:['Ordre du Sang Ancien'] },
+];
+
+const RACES = [
+  { id:'humain',      icon:'👤', name:'Humain',       cat:'classique', weight:100, bonus:{CHA:2},         malus:{},        skills:['Sociable — +2 CHA permanent (passif)','Adaptabilité — +15% XP de toutes les sources (passif)'],                                               desc:'Race la plus répandue. Leur capacité d\'adaptation et leur ambition font leur force. Ce que les autres voient comme une faiblesse est leur plus grande atout.' },
+  { id:'elfe',        icon:'🌿', name:'Elfe',          cat:'classique', weight:100, bonus:{RESM:2,PMAG:1}, malus:{},        skills:['Affinité magique — déblocage magie +35% (passif)','Mage dans l\'âme — +2 RESM, +1 PMAG permanent (passif)'],                             desc:'Race ancienne liée aux forêts et aux flux magiques. Sensibilité accrue à la magie — au prix d\'une fragilité physique.' },
+  { id:'nain',        icon:'⛏️', name:'Nain',          cat:'classique', weight:100, bonus:{},              malus:{},        skills:['Expert dans l\'ensemble — +15% DEX (passif)','Peau de fer — +35% RESP pendant 4 tours (actif)'],                                            desc:'Peuple robuste des montagnes, réputé pour la forge, la mine et une résistance physique hors du commun.' },
+  { id:'orc',         icon:'💢', name:'Orc',           cat:'classique', weight:100, bonus:{},              malus:{},        skills:['Brutalité — +15% FOR permanent (passif)','Rage sauvage — sous 40% PV, +25% dégâts (actif)'],                                              desc:'Race puissante souvent mal jugée. Excelle dans les affrontements physiques et transforme la douleur en carburant.' },
+  { id:'demi_elfe',   icon:'🌗', name:'Demi-Elfe',     cat:'classique', weight:100, bonus:{},              malus:{},        skills:['Héritage hybride — +5% XP global (passif)','Souplesse naturelle — +10% VIT, +5% CHA (passif)'],                                           desc:'Issu de deux héritages. Progression souple, nature sociale ouverte. Une liberté que les races pures n\'ont pas.' },
+  { id:'gobelin',     icon:'👺', name:'Gobelin',        cat:'classique', weight:100, bonus:{},              malus:{},        skills:['Sale bête — +20% loot (passif)','Diversion — -20% précision ennemie pendant 1 tour (actif)'],                                              desc:'Petit, nerveux et rusé. Survit grâce aux coups bas, à la vitesse et à la débrouille.' },
+  { id:'tieffelin',   icon:'🔥', name:'Tieffelin',      cat:'classique', weight:100, bonus:{},              malus:{},        skills:['Sang infernal — -30% dégâts reçus de feu (passif)','Aura inquiétante — +20% bonus d\'intimidation (passif)'],                              desc:'Marqué par un sang infernal. Résistance innée aux flammes et présence intimidante naturelle.' },
+  { id:'drakeide',    icon:'🐉', name:'Drakéide',       cat:'classique', weight:100, bonus:{},              malus:{},        skills:['Écailles naturelles — +15% RESP (passif)','Souffle draconique — 130% PMAG dégâts de zone (actif)'],                                       desc:'Sang draconique, corps imposant, affinité élémentaire héritée de lointains ancêtres draconiques.' },
+  { id:'kitsune',     icon:'🦊', name:'Kitsune',        cat:'classique', weight:100, bonus:{CHA:3},         malus:{},        skills:['Charme mystique — +3 CHA permanent (passif)','Illusion mineure — 35% chance d\'esquive parfaite pendant 1 tour (actif)'],                  desc:'Esprit-renard rusé et charmeur, lié aux illusions. Brille par la tromperie et l\'élégance sociale.' },
+  { id:'felinide',    icon:'🐈', name:'Félinide',       cat:'classique', weight:100, bonus:{},              malus:{},        skills:['Réflexes félins — +20% VIT (passif)','Chasseur agile — +15% bonus d\'esquive (passif)'],                                                   desc:'Race agile aux réflexes félins. Excellente pour l\'esquive, l\'infiltration et les déplacements rapides.' },
+  { id:'leonin',      icon:'🦁', name:'Léonin',         cat:'classique', weight:100, bonus:{},              malus:{},        skills:['Présence dominante — +25% intimidation (passif)','Rugissement royal — -15% précision, -10% dégâts ennemis pendant 2 tours (actif)'],     desc:'Race fière et puissante. Impose le respect naturellement, excelle dans le commandement et les situations de pression.' },
+  { id:'vampire',     icon:'🧛', name:'Vampire',        cat:'classique', weight:100, bonus:{},              malus:{},        skills:['Régénération nocturne — récupère 3% PV/tour la nuit (passif)','Morsure vampirique — vole 25% de la vie infligée (actif)','Affaiblissement solaire — -15% VIT le jour (malus permanent)'],  desc:'Créature nocturne élégante et prédatrice. Puissante sous la lune, fragilisée par le soleil.' },
+  { id:'mort_vivant', icon:'💀', name:'Mort-vivant',    cat:'classique', weight:100, bonus:{},              malus:{},        skills:['Corps sans douleur — -50% effets de saignement (passif)','Refus de mourir — 10% de chance de survivre à un coup fatal (passif)','Soins affaiblis — -35% efficacité des soins reçus (malus permanent)'],  desc:'Être revenu d\'entre les morts. Très difficile à briser, mais rejeté par la plupart des vivants.' },
+  { id:'aasimar',     icon:'☀️', name:'Aasimar',        cat:'rare',      weight:8,  bonus:{},              malus:{},        skills:['Sang céleste — +20% RESM (passif)','Lumière sacrée — soigne 15% PV ou +25% dégâts contre morts-vivants/démons (actif)'],                  desc:'Être marqué par une lumière céleste. Vénéré par les cultes du Prisme, craint par les factions sombres.' },
+  { id:'demon_mineur',icon:'😈', name:'Démon mineur',   cat:'rare',      weight:8,  bonus:{},              malus:{},        skills:['Instinct démoniaque — +10% FOR et PMAG (passif)','Pacte sanglant — sacrifice 10% PV pour +30% dégâts pendant 2 tours (actif)'],           desc:'Créature infernale incomplète ayant trouvé une forme stable. Dangereuse, traquée par les cultes.' },
+  { id:'ange_dechu',  icon:'🪶', name:'Ange déchu',     cat:'rare',      weight:8,  bonus:{},              malus:{},        skills:['Grâce brisée — +15% mobilité globale (passif)','Chute astrale — esquive automatique d\'une attaque (actif)'],                               desc:'Ancien être céleste brisé ou banni. Sa grâce reste intacte même après la chute.' },
+  { id:'dhampire',    icon:'🩸', name:'Dhampire',       cat:'rare',      weight:8,  bonus:{},              malus:{},        skills:['Sang impur — +10% VIT, vol de vie 10% passif (passif)','Frénésie — +20% VIT et +15% dégâts pendant 2 tours (actif)'],                     desc:'Moitié vivant, moitié vampirique. Garde les dons du vampire sans subir entièrement sa malédiction.' },
+  { id:'yokai',       icon:'👻', name:'Yokai',          cat:'rare',      weight:8,  bonus:{},              malus:{},        skills:['Présence surnaturelle — -10% précision ennemis au tour 1 de combat (passif)','Forme troublante — +30% esquive pendant 1 tour (actif)'], desc:'Esprit étrange lié aux lieux anciens et aux illusions. N\'appartient pas tout à fait à ce monde.' },
+  { id:'elfe_noire',  icon:'🌙', name:'Elfe noire',     cat:'rare',      weight:5,  bonus:{},              malus:{},        skills:['Vision nocturne — ignore les malus d\'obscurité (passif)','Discipline — +20% efficacité entraînement la nuit (passif)','Mage de guerre — +10% PMAG et FOR (passif)'],  desc:'Lignée elfique nocturne. Disciplinée, dangereuse, redoutablement efficace dans l\'obscurité.' },
+  { id:'dragon',      icon:'🐲', name:'Dragon',         cat:'rare',      weight:1,  bonus:{},              malus:{},        skills:['Corps draconique — +25% RESP, +20% PMAG (passif)','Roi des créatures — -15% moral des ennemis de faible rang (passif)','Aura draconique — 30% de chance de faire passer le tour d\'un ennemi faible (actif)'],  desc:'Ultra-rare. Sa seule présence bouleverse les rapports de force. Chaque apparition remodèle les équilibres locaux.' },
+];
+
+const CLASSES = [
+  { id:'guerrier',         icon:'⚔️',  name:'Guerrier',          tier:'base',          type:'Combat physique',         stat:'FOR',      skill:'Second souffle — récupère 20% PV max 1×/combat',                                   bonus:{FOR:2,RESP:1}, malus:{},          desc:'La colonne vertébrale de toute armée. Robuste, direct, efficace. Pas besoin de magie pour être dangereux.',                                     spe_into:['Chevalier noir','Seigneur de guerre'] },
+  { id:'rodeur',           icon:'🏹',  name:'Rôdeur',            tier:'base',          type:'Survie / Mobilité',       stat:'DEX + VIT', skill:'Tir précis — +40% précision, +20% dégâts à distance',                              bonus:{DEX:2,VIT:1},  malus:{},          desc:'Chasseur, pisteur, archer. À l\'aise là où les autres se perdent. Voir sans être vu, frapper sans être touché.',                                spe_into:['Assassin','Sorceleur'] },
+  { id:'voleur',           icon:'🎭',  name:'Voleur',            tier:'base',          type:'Furtivité / Ruse',        stat:'DEX',       skill:'Coup dans le dos — +80% dégâts + 30% perce-armure sur cible non alertée',          bonus:{DEX:3},        malus:{},          desc:'Survit dans les ombres. Crocheteur, pickpocket, maître de l\'information et des raccourcis moraux.',                                            spe_into:['Assassin','Troubadour','Lame fantôme'] },
+  { id:'mage',             icon:'🔮',  name:'Mage',              tier:'base',          type:'Magie offensive',         stat:'PMAG',      skill:'Surcharge magique — +50% PMAG pendant 2 tours, -20% RESP',                        bonus:{PMAG:3,RESM:1},malus:{RESP:-1},    desc:'Canalise les flux prismatiques bruts. Dévastateur à distance, fragile de près.',                                                                spe_into:['Arcaniste','Archimage','Troubadour'] },
+  { id:'barde',            icon:'🎵',  name:'Barde',             tier:'base',          type:'Soutien / Social',        stat:'CHA',       skill:'Mélodie du moral — +15% précision à tous les alliés pendant 3 tours',               bonus:{CHA:3,SAG:1},  malus:{},          desc:'Partout où il y a une oreille. Manipule les foules, soutient les alliés en combat, ouvre des portes fermées.',                                 spe_into:['Troubadour','Sage des ombres'] },
+  { id:'pretre',           icon:'✝️',  name:'Prêtre',            tier:'base',          type:'Soutien / Soins',         stat:'SAG',       skill:'Soin béni — soigne un allié de 30 à 40% de ses PV max',                            bonus:{SAG:2,RESM:1}, malus:{},          desc:'Puise dans la foi pour soigner, protéger et purifier. Maintient les alliés en vie là où les autres capitulent.',                               spe_into:['Inquisiteur','Avatar divin','Templier'] },
+  { id:'druide',           icon:'🌿',  name:'Druide',            tier:'base',          type:'Nature / Hybride',        stat:'SAG + PMAG',skill:'Régénération naturelle — régénère 5% PV/tour pendant 4 tours',                      bonus:{SAG:2,PMAG:1}, malus:{},          desc:'Hybride soutien / magie naturelle. Soigne, invoque des effets élémentaires, parle aux esprits de la nature.',                                  spe_into:['Chaman','Avatar divin'] },
+  { id:'alchimiste',       icon:'⚗️',  name:'Alchimiste',        tier:'base',          type:'Craft / Soutien',         stat:'SAG + DEX', skill:'Fiole improvisée — soin 20% PV ou toxine -15% dégâts sur cible',                    bonus:{DEX:1,SAG:2},  malus:{},          desc:'Transforme, combine, empoisonne ou soigne. En combat imprévisible. Hors combat, indispensable.',                                               spe_into:['Forgeron runique','Sage des ombres'] },
+  { id:'paladin',          icon:'🛡️',  name:'Paladin',           tier:'base',          type:'Tank / Foi',              stat:'FOR + SAG', skill:'Bouclier divin — redirige 40% des dégâts reçus par un allié pendant 2 tours',      bonus:{FOR:1,SAG:1,RESP:2}, malus:{VIT:-1},desc:'Porte la foi comme une armure. Absorbe les coups pour les siens, punit les mauvais avec conviction.',                                         spe_into:['Chevalier noir','Inquisiteur','Templier'] },
+  { id:'chevalier_noir',   icon:'🖤',  name:'Chevalier noir',    tier:'specialisation',type:'Tank offensif / Ombre',    stat:'FOR',       skill:'Lame maudite — +35% dégâts et vole 10% de la vie infligée pendant 3 tours',        bonus:{FOR:2,RESP:1,RESM:1}, malus:{CHA:-1}, desc:'A rompu ses serments. Frappe plus fort et draine la magie sombre pour se renforcer. La chute est souvent volontaire.',  from:['Guerrier','Paladin'], spe_into:['Seigneur de guerre'] },
+  { id:'assassin',         icon:'🗡️',  name:'Assassin',          tier:'specialisation',type:'Furtivité / Élimination',  stat:'DEX',       skill:'Contrat exécuté — +120% dégâts sur une cible à plus de 50% PV (1×/combat)',       bonus:{DEX:3,VIT:2},  malus:{RESP:-1},   desc:'N\'engage pas — il termine. Frappes uniques dévastatrices, poison et disparition.',                                     from:['Voleur','Rôdeur'],    spe_into:['Lame fantôme'] },
+  { id:'arcaniste',        icon:'⚡',  name:'Arcaniste',          tier:'specialisation',type:'Magie de contrôle',        stat:'PMAG',      skill:'Contre-sort — annule automatiquement le prochain sort ennemi',                      bonus:{PMAG:3,RESM:2},malus:{RESP:-2},    desc:'Maîtrise des sorts complexes et du contrôle. Modifie le déroulement du combat plutôt que de simplement tuer.',         from:['Mage'],               spe_into:['Archimage'] },
+  { id:'inquisiteur',      icon:'⚖️',  name:'Inquisiteur',        tier:'specialisation',type:'Foi offensive',            stat:'SAG + FOR', skill:'Jugement divin — +60% dégâts contre morts-vivants et démons',                      bonus:{SAG:2,FOR:1,RESM:2}, malus:{CHA:-1}, desc:'Traque les hérétiques et les corrompus. Sa foi est une arme autant qu\'un bouclier. Inflexible, efficace.',            from:['Prêtre','Paladin'],   spe_into:['Avatar divin'] },
+  { id:'chamane',          icon:'🌀',  name:'Chaman',             tier:'specialisation',type:'Esprits / Malédictions',   stat:'SAG',       skill:'Malédiction des anciens — -20% dégâts et -15% précision sur une cible pendant 3t', bonus:{SAG:3,PMAG:2}, malus:{RESP:-1},   desc:'Dialogue avec les esprits. Bénit ou maudit, soigne ou altère durablement le corps et l\'esprit.',                      from:['Druide'],             spe_into:['Sage des ombres'] },
+  { id:'forgeron_runique', icon:'🔨',  name:'Forgeron runique',   tier:'specialisation',type:'Craft / Enchantement',     stat:'DEX + SAG', skill:'Rune de puissance — +25% dégâts sur l\'arme équipée 1×/combat',                    bonus:{DEX:2,SAG:2,FOR:1}, malus:{},       desc:'Grave des runes sur les armes pour leur conférer des propriétés magiques permanentes.',                                 from:['Alchimiste'],         spe_into:[] },
+  { id:'sorceleur',        icon:'🐱',  name:'Sorceleur',          tier:'specialisation',type:'Contrats / Hybride',       stat:'DEX + VIT', skill:'Signe d\'entrave — -50% VIT et esquive désactivée sur une cible pendant 1 tour',    bonus:{DEX:2,VIT:2,RESM:1}, malus:{CHA:-1}, desc:'A été modifié par des mutations alchimiques. Réflexes surnaturels, signes magiques en combat.',                        from:['Rôdeur'],             spe_into:['Lame fantôme'] },
+  { id:'troubadour',       icon:'🎪',  name:'Troubadour',         tier:'specialisation',type:'Illusions / Manipulation',  stat:'CHA',       skill:'Voile d\'illusion — la cible rate son prochain tour (1×/combat)',                   bonus:{CHA:3,PMAG:1,DEX:1}, malus:{},       desc:'A transformé l\'art en arme. Illusionniste, manipulateur, espion. Brouille la réalité pour servir ses objectifs.',    from:['Barde','Mage','Voleur'], spe_into:['Sage des ombres'] },
+  { id:'templier',         icon:'🏛️',  name:'Templier',           tier:'specialisation',type:'Commandement / Zone',      stat:'CHA + RESP',skill:'Aura de résistance — +25% RESP et +15% RESM à tous les alliés pendant 3 tours',     bonus:{FOR:1,RESP:2,SAG:1,CHA:2}, malus:{VIT:-1}, desc:'Commande. Derrière lui les alliés résistent mieux. Sa présence seule change l\'équilibre du champ de bataille.',  from:['Prêtre','Paladin'],   spe_into:['Seigneur de guerre'] },
+  { id:'archimage',        icon:'💫',  name:'Archimage',          tier:'prestige',      type:'Magie de destruction pure', stat:'PMAG',      skill:'Déchaînement prismatique — 200% PMAG en dégâts de zone, -50% mana',                bonus:{PMAG:5,RESM:3},malus:{RESP:-3,FOR:-1}, desc:'Maîtrise rare des flux prismatiques dans leur forme la plus brute. Sa présence modifie le comportement magique dans un rayon de 50 mètres.', from:['Arcaniste'] },
+  { id:'lame_fantome',     icon:'💨',  name:'Lame fantôme',       tier:'prestige',      type:'Furtivité extrême',        stat:'VIT + DEX', skill:'Effacement — intouchable pendant 1 tour + attaque +60% depuis l\'ombre',             bonus:{VIT:4,DEX:4},  malus:{RESP:-2},   desc:'Ne laisse pas de trace. Frappe et disparaît avant que la douleur se manifeste. Le pire cauchemar des gardes du corps.', from:['Assassin','Sorceleur'] },
+  { id:'avatar_divin',     icon:'🌟',  name:'Avatar divin',       tier:'prestige',      type:'Lumière / Jugement',       stat:'SAG',       skill:'Lumière du Prisme — soin de zone 25% PV + 150% dégâts contre ténèbres',              bonus:{SAG:4,RESM:3,CHA:2}, malus:{},    desc:'Conduit vivant de la volonté du Prisme Éternel. Sa présence brûle les ténèbres. Sa foi est une réalité.',             from:['Inquisiteur','Chaman','Druide'] },
+  { id:'seigneur_guerre',  icon:'🪓',  name:'Seigneur de guerre', tier:'prestige',      type:'Commandement / Destruction',stat:'FOR + CHA', skill:'Cri de guerre — +30% dégâts alliés et -20% moral ennemi pendant 3 tours',           bonus:{FOR:4,RESP:3,CHA:2}, malus:{SAG:-1}, desc:'A forgé sa réputation dans le sang et la victoire. Sa présence est un avantage tactique en elle-même.',            from:['Chevalier noir','Templier'] },
+  { id:'sage_ombres',      icon:'🌑',  name:'Sage des ombres',    tier:'prestige',      type:'Secrets / Manipulation',   stat:'CHA + SAG', skill:'Marionnettiste — contrôle mental d\'un ennemi pendant 1 tour (1×/combat)',            bonus:{CHA:4,DEX:3,SAG:2}, malus:{},    desc:'Invisible là où on ne l\'attend pas, influent là où on ne le voit pas. Sait tout sur tout le monde.',                from:['Troubadour','Chaman','Alchimiste'] },
+];
+
+const ROLES = [
+  { id:'paysan',          icon:'🌾', name:'Paysan',           weight:80, bonus:{SAG:1},              malus:{},        estec:1, standing:'Bas',      effects:['Connaissance du terrain local','Résistance à la fatigue'],                               desc:'Né de la terre et du labeur. Connaît son coin de monde mieux que quiconque — et survit là où d\'autres capitulent.' },
+  { id:'marchand',        icon:'🏪', name:'Marchand',         weight:60, bonus:{CHA:2},              malus:{},        estec:2, standing:'Moyen',     effects:['Réseau commercial de base','Sens du prix juste'],                                        desc:'Habitué des routes commerciales et des négociations. Sait vendre, acheter et repérer ce que les autres ignorent.' },
+  { id:'soldat',          icon:'🗡️', name:'Soldat',           weight:60, bonus:{FOR:1,RESP:1},       malus:{},        estec:1, standing:'Moyen',     effects:['Formation militaire de base','Cohésion en groupe de combat'],                           desc:'Formé dans une armée, une milice ou une garde. Discipliné, robuste, et sait comment les batailles se jouent de l\'intérieur.' },
+  { id:'voleur_rues',     icon:'🎭', name:'Voleur des rues',  weight:50, bonus:{DEX:2},              malus:{},        estec:1, standing:'Bas',       effects:['Réseau d\'informateurs de quartier','Instinct de fuite'],                               desc:'Grandi dans les ruelles et les bas-fonds. Débrouillard, méfiant, et plus intelligent qu\'il ne le laisse paraître.' },
+  { id:'apprenti_mage',   icon:'📖', name:'Apprenti mage',    weight:40, bonus:{PMAG:1},             malus:{},        estec:1, standing:'Moyen',     effects:['Connaissance théorique des affinités','Accès aux bibliothèques académiques'],            desc:'Formé dans une académie ou par un mentor. Connaît les bases des flux prismatiques mais n\'a pas encore trouvé sa voie.' },
+  { id:'noble_mineur',    icon:'👑', name:'Noble mineur',     weight:25, bonus:{CHA:2},              malus:{},        estec:3, standing:'Élevé',     effects:['Titre honorifique reconnu dans certaines villes','Accès aux milieux nobles locaux'],    desc:'Issu d\'une maison secondaire. Porte un titre mais pas forcément de fortune — juste la façade.' },
+  { id:'moine',           icon:'🧘', name:'Moine',            weight:25, bonus:{SAG:2},              malus:{},        estec:1, standing:'Respecté',  effects:['Discipline mentale (+10% résistance peur/chaos)','Connaissance religieuse approfondie'], desc:'Formé dans un monastère. Peu de biens matériels, mais une maîtrise de soi que peu d\'autres possèdent.' },
+  { id:'mercenaire',      icon:'⚔️', name:'Mercenaire',       weight:20, bonus:{FOR:1,DEX:1},        malus:{},        estec:1, standing:'Variable',  effects:['Réputation neutre auprès des factions','Connaissance des zones de conflit'],            desc:'Ni armée ni serment — juste la paye. A combattu pour plusieurs camps, ce qui donne une vision réaliste du monde.' },
+  { id:'enfant_rue',      icon:'🏚️', name:'Enfant de la rue', weight:15, bonus:{DEX:2},              malus:{CHA:-1},  estec:1, standing:'Très bas',  effects:['Instinct de survie exacerbé','Résistance innée à la faim et au froid'],               desc:'Personne ne l\'a aidé. Il s\'est construit seul, dans la rue, avec ce que les autres jetaient.' },
+  { id:'batard_noble',    icon:'❓', name:'Bâtard noble',     weight:10, bonus:{CHA:1,RESM:1},       malus:{},        estec:2, standing:'Ambigu',    effects:['Connaissance des codes nobles','Discrétion naturelle'],                                  desc:'Fils ou fille illégitime d\'une maison de rang. Éduqué mais jamais reconnu. Connaît les codes nobles — en est exclu.' },
+  { id:'exile',           icon:'🚪', name:'Exilé',            weight:8,  bonus:{RESP:1,RESM:1},      malus:{CHA:-1},  estec:1, standing:'Négatif',   effects:['Survie en milieu hostile','Méfiance instinctive','Alignement -100 au départ'],         desc:'Banni, chassé ou fuyant quelque chose. L\'exil laisse des cicatrices — mais aussi une endurance que peu comprennent.' },
+  { id:'heritier_sang',   icon:'🩸', name:'Héritier de sang', weight:5,  bonus:{FOR:2,PMAG:1},       malus:{},        estec:2, standing:'Variable',  effects:['Lignée reconnue par les entités sensibles','Potentiel magique latent renforcé'],        desc:'Issu d\'une lignée ancienne dont le pouvoir s\'est manifesté. La magie coule dans ses veines — ou quelque chose de plus sombre.' },
+  { id:'elu_destin',      icon:'⭐', name:'Élu du destin',    weight:2,  bonus:{FOR:1,VIT:1,DEX:1,RESP:1,RESM:1,PMAG:1,CHA:1,SAG:1}, malus:{}, estec:1, standing:'Inconnu', effects:['+10% XP de toutes les sources','Destin — arc narratif MJ activé à la création'],  desc:'Quelque chose l\'a choisi. Personne ne sait encore quoi — pas même lui. Mais les coïncidences s\'accumulent.' },
+];
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+const filters = { f:'all', r:'all', c:'all' };
+
+// ── NAV ───────────────────────────────────────────────────────────────────────
+function tab(name, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('s-'+name).classList.add('active');
+  (btn || event.currentTarget).classList.add('active');
+}
+
+// ── FILTERS ───────────────────────────────────────────────────────────────────
+function setFilter(type, val, btn) {
+  filters[type] = val;
+  const row = btn.closest('.filter-row');
+  row.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  if (type === 'f') buildFactions();
+  if (type === 'r') buildRaces();
+  if (type === 'c') buildClasses();
+}
+
+// ── BADGES ────────────────────────────────────────────────────────────────────
+const ALIGN_BADGES = { ordre:'b-ordre Ordre', chaos:'b-chaos Chaos', neutre:'b-neutre Neutre', secret:'b-secret Mystère' };
+const TIER_BADGES  = { base:'b-base Base', specialisation:'b-spe Spécialisation', prestige:'b-prestige Prestige' };
+const CAT_BADGES   = { classique:'b-classique Classique', rare:'b-rare Rare' };
+
+function badge(map, key) {
+  const v = map[key] || 'b-neutre ?';
+  const [cls, ...label] = v.split(' ');
+  return `<span class="badge ${cls}">${label.join(' ')}</span>`;
+}
+
+function bonusPills(bonus, malus) {
+  let h = '';
+  for (const [k,v] of Object.entries(bonus||{})) h += `<span class="stat-pill"><span class="plus">+${v}</span> ${k}</span>`;
+  for (const [k,v] of Object.entries(malus||{})) h += `<span class="stat-pill"><span class="minus">${v}</span> ${k}</span>`;
+  return h ? `<div class="stat-row">${h}</div>` : '';
+}
+
+// ── FACTIONS ──────────────────────────────────────────────────────────────────
+function buildFactions() {
+  const q = (document.getElementById('faction-search').value||'').toLowerCase();
+  const g = document.getElementById('faction-grid');
+  g.innerHTML = '';
+  FACTIONS
+    .filter(f => (filters.f === 'all' || f.continent === filters.f) && (f.name.toLowerCase().includes(q) || f.type.toLowerCase().includes(q)))
+    .forEach(f => {
+      const d = document.createElement('div');
+      d.className = 'card'; d.id = 'fc-'+f.id;
+      d.innerHTML = `<div class="card-icon">${f.icon}</div><div class="card-name">${f.name}</div><div class="card-sub">${f.type}</div><div>${badge(ALIGN_BADGES, f.align)}</div>`;
+      d.onclick = () => showFaction(f.id);
+      g.appendChild(d);
+    });
+}
+function showFaction(id) {
+  document.querySelectorAll('#faction-grid .card').forEach(c => c.classList.remove('sel'));
+  const el = document.getElementById('fc-'+id); if (el) el.classList.add('sel');
+  const f = FACTIONS.find(x => x.id === id); if (!f) return;
+  const allHtml = f.allies.map(a => `<span class="chip ally">${a}</span>`).join('');
+  const tenHtml = (f.tensions||[]).map(a => `<span class="chip tension">${a}</span>`).join('');
+  const eneHtml = (f.enemies||[]).map(a => `<span class="chip enemy">${a}</span>`).join('');
+  document.getElementById('faction-detail').innerHTML = `
+    <div class="det-title">${f.icon} ${f.name}</div>
+    <div class="det-meta"><span>${f.type}</span><span>${f.continent}</span>${badge(ALIGN_BADGES, f.align)}</div>
+    <div class="det-desc">${f.desc}</div>
+    ${allHtml||tenHtml||eneHtml ? `
+    <div class="det-section">
+      <div class="det-section-title">Relations avec les autres factions</div>
+      <div class="chip-row">${allHtml}${tenHtml}${eneHtml}</div>
+    </div>` : ''}
+  `;
+}
+
+// ── RACES ─────────────────────────────────────────────────────────────────────
+function buildRaces() {
+  const g = document.getElementById('race-grid'); g.innerHTML = '';
+  RACES.filter(r => filters.r === 'all' || r.cat === filters.r).forEach(r => {
+    const d = document.createElement('div');
+    d.className = 'card'; d.id = 'rc-'+r.id;
+    d.innerHTML = `<div class="card-icon">${r.icon}</div><div class="card-name">${r.name}</div><div class="card-sub">Poids : ${r.weight}</div><div>${badge(CAT_BADGES, r.cat)}</div>`;
+    d.onclick = () => showRace(r.id);
+    g.appendChild(d);
+  });
+}
+function showRace(id) {
+  document.querySelectorAll('#race-grid .card').forEach(c => c.classList.remove('sel'));
+  const el = document.getElementById('rc-'+id); if (el) el.classList.add('sel');
+  const r = RACES.find(x => x.id === id); if (!r) return;
+  const skillsHtml = r.skills.map(s => {
+    const isPassif = s.includes('(passif)'), isActif = s.includes('(actif)'), isMalus = s.includes('(malus');
+    const icon = isMalus ? '◌' : isActif ? '◉' : '◈';
+    const cls  = isMalus ? 'minus' : isActif ? '' : '';
+    return `<div class="skill-item"><div class="skill-name">${icon} ${s.replace(/\s*\(passif\)|\s*\(actif\)|\s*\(malus[^)]*\)/g,'')}<span class="skill-badge">${isMalus?'malus':isActif?'actif':'passif'}</span></div></div>`;
+  }).join('');
+  document.getElementById('race-detail').innerHTML = `
+    <div class="det-title">${r.icon} ${r.name}</div>
+    <div class="det-meta">${badge(CAT_BADGES, r.cat)}<span>Poids de tirage : ${r.weight}</span></div>
+    <div class="det-desc">${r.desc}</div>
+    ${bonusPills(r.bonus, r.malus)}
+    <div class="det-section"><div class="det-section-title">Compétences raciales</div>${skillsHtml}</div>
+  `;
+}
+
+// ── CLASSES ───────────────────────────────────────────────────────────────────
+function buildClasses() {
+  const g = document.getElementById('class-grid'); g.innerHTML = '';
+  CLASSES.filter(c => filters.c === 'all' || c.tier === filters.c).forEach(c => {
+    const d = document.createElement('div');
+    d.className = 'card'; d.id = 'cl-'+c.id;
+    d.innerHTML = `<div class="card-icon">${c.icon}</div><div class="card-name">${c.name}</div><div class="card-sub">${c.type}</div><div>${badge(TIER_BADGES, c.tier)}</div>`;
+    d.onclick = () => showClass(c.id);
+    g.appendChild(d);
+  });
+}
+function showClass(id) {
+  document.querySelectorAll('#class-grid .card').forEach(c => c.classList.remove('sel'));
+  const el = document.getElementById('cl-'+id); if (el) el.classList.add('sel');
+  const c = CLASSES.find(x => x.id === id); if (!c) return;
+  const from = c.from ? `<div class="det-section"><div class="det-section-title">Débloquée depuis</div><div class="chip-row">${c.from.map(x=>`<span class="chip">${x}</span>`).join('')}</div></div>` : '';
+  const spe  = c.spe_into && c.spe_into.length ? `<div class="det-section"><div class="det-section-title">Se spécialise en</div><div class="chip-row">${c.spe_into.map(x=>`<span class="chip">${x}</span>`).join('')}</div></div>` : '';
+  document.getElementById('class-detail').innerHTML = `
+    <div class="det-title">${c.icon} ${c.name}</div>
+    <div class="det-meta">${badge(TIER_BADGES, c.tier)}<span>${c.type}</span><span>Stat principale : ${c.stat}</span></div>
+    <div class="det-desc">${c.desc}</div>
+    ${bonusPills(c.bonus, c.malus)}
+    <div class="det-section"><div class="det-section-title">Compétence signature</div>
+      <div class="skill-item"><div class="skill-name">◉ ${c.skill}</div></div>
+    </div>
+    ${from}${spe}
+  `;
+}
+
+// ── RÔLES ─────────────────────────────────────────────────────────────────────
+function buildRoles() {
+  const g = document.getElementById('role-grid'); g.innerHTML = '';
+  ROLES.forEach(r => {
+    const d = document.createElement('div');
+    d.className = 'card'; d.id = 'ro-'+r.id;
+    d.innerHTML = `<div class="card-icon">${r.icon}</div><div class="card-name">${r.name}</div><div class="card-sub">Poids : ${r.weight} · Estec ×${r.estec}</div>`;
+    d.onclick = () => showRole(r.id);
+    g.appendChild(d);
+  });
+}
+function showRole(id) {
+  document.querySelectorAll('#role-grid .card').forEach(c => c.classList.remove('sel'));
+  const el = document.getElementById('ro-'+id); if (el) el.classList.add('sel');
+  const r = ROLES.find(x => x.id === id); if (!r) return;
+  const fx = r.effects.map(e => `<span class="chip">${e}</span>`).join('');
+  document.getElementById('role-detail').innerHTML = `
+    <div class="det-title">${r.icon} ${r.name}</div>
+    <div class="det-meta"><span>Poids de tirage : ${r.weight}</span><span>Statut social : ${r.standing}</span><span>Estec de départ ×${r.estec}</span></div>
+    <div class="det-desc">${r.desc}</div>
+    ${bonusPills(r.bonus, r.malus)}
+    <div class="det-section"><div class="det-section-title">Effets et avantages de départ</div><div class="chip-row">${fx}</div></div>
+  `;
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+buildFactions(); buildRaces(); buildClasses(); buildRoles();
+</script>
+</body>
+</html>
